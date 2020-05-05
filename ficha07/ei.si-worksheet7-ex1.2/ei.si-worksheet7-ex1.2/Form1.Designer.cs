@@ -54,7 +54,7 @@
             this.label5.Location = new System.Drawing.Point(607, 118);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(32, 26);
+            this.label5.Size = new System.Drawing.Size(16, 13);
             this.label5.TabIndex = 42;
             this.label5.Text = "->";
             // 
@@ -65,7 +65,7 @@
             this.label2.Location = new System.Drawing.Point(901, 67);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(32, 26);
+            this.label2.Size = new System.Drawing.Size(16, 13);
             this.label2.TabIndex = 43;
             this.label2.Text = "->";
             // 
@@ -76,7 +76,7 @@
             this.label3.Location = new System.Drawing.Point(901, 24);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(32, 26);
+            this.label3.Size = new System.Drawing.Size(16, 13);
             this.label3.TabIndex = 44;
             this.label3.Text = "->";
             // 
@@ -87,7 +87,7 @@
             this.label4.Location = new System.Drawing.Point(277, 23);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(32, 26);
+            this.label4.Size = new System.Drawing.Size(16, 13);
             this.label4.TabIndex = 45;
             this.label4.Text = "->";
             // 
@@ -122,7 +122,7 @@
             this.label1.Location = new System.Drawing.Point(277, 65);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(32, 26);
+            this.label1.Size = new System.Drawing.Size(16, 13);
             this.label1.TabIndex = 41;
             this.label1.Text = "->";
             // 
@@ -231,10 +231,11 @@
             this.textBoxInfo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBoxInfo.Size = new System.Drawing.Size(1232, 468);
             this.textBoxInfo.TabIndex = 46;
+            this.textBoxInfo.Text = "Mensagem";
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(15F, 30F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1261, 645);
             this.Controls.Add(this.textBoxInfo);
