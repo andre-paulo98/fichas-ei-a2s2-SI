@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -30,15 +31,24 @@ namespace AuthService {
                 SqlCommand cmd = new SqlCommand();
 
                 // attention...
-                cmd.CommandText = "SELECT id FROM Users where login = '" + login + "' AND password = '" + password + "'";
+                //cmd.CommandText = "SELECT id FROM Users where login = '" + login + "' AND password = '" + password + "'";
+                cmd.CommandText = "SELECT id FROM Users where login = @login AND password = @password";
+                cmd.Parameters.AddWithValue("@login", login);
+                cmd.Parameters.AddWithValue("@passwrod", password);
 
                 cmd.CommandType = CommandType.Text;
                 cmd.Connection = sqlConnection;
                 sqlConnection.Open();
 
-                int id = (int)cmd.ExecuteScalar();
-                return id;
-            } catch {
+                var result = cmd.ExecuteScalar();
+
+                if(result != null) {
+                    return (int)result;
+                } else {
+                    return 0;
+                }
+
+            } catch (Exception) {
                 return 0;
             } finally {
                 if (sqlConnection != null)
@@ -61,7 +71,10 @@ namespace AuthService {
                 SqlCommand cmd = new SqlCommand();
 
                 // todo ...
-                cmd.CommandText = "UPDATE ...";
+                //cmd.CommandText = $"UPDATE Users SET description = '{description}' WHERE Id = {id}";
+                cmd.CommandText = "UPDATE Users SET description = @description WHERE Id = @id";
+                cmd.Parameters.AddWithValue("@description", description);
+                cmd.Parameters.AddWithValue("@id", id);
 
                 cmd.CommandType = CommandType.Text;
                 cmd.Connection = sqlConnection;
@@ -91,7 +104,41 @@ namespace AuthService {
                 SqlDataReader reader;
 
                 // isto DEVE que ser alterado .... para usar SQLParameters
-                cmd.CommandText = "SELECT * FROM Users where id = " + id.ToString();
+                //cmd.CommandText = "SELECT * FROM Users where id = " + id.ToString();
+                cmd.CommandText = "SELECT * FROM Users where id = @id";
+                cmd.Parameters.AddWithValue("@id", id);
+
+                cmd.CommandType = CommandType.Text;
+                cmd.Connection = sqlConnection;
+                sqlConnection.Open();
+
+                reader = cmd.ExecuteReader();
+                if (reader.Read()) {
+                    User user = LoadUser(reader);
+                    return user;
+                }
+
+                return null;
+            } catch {
+                return null;
+            } finally {
+                if (sqlConnection != null)
+                    sqlConnection.Close();
+            }
+        }
+
+        public static User GetUser(string username) {
+            SqlConnection sqlConnection = null;
+            try {
+                sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
+                SqlCommand cmd = new SqlCommand();
+                SqlDataReader reader;
+
+                // isto DEVE que ser alterado .... para usar SQLParameters
+                //cmd.CommandText = "SELECT * FROM Users where login = '" + username + "'";
+                cmd.CommandText = "SELECT * FROM Users where login = @username";
+                cmd.Parameters.AddWithValue("@username", username);
+
                 cmd.CommandType = CommandType.Text;
                 cmd.Connection = sqlConnection;
                 sqlConnection.Open();
@@ -117,7 +164,7 @@ namespace AuthService {
         /// </summary>
         /// <returns>List with the users or null</returns>
         public static List<User> GetUsers() {
-            List<User> users = null;
+            List<User> users = new List<User>();
             SqlConnection sqlConnection = null;
             try {
                 sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
@@ -131,10 +178,9 @@ namespace AuthService {
 
                 reader = cmd.ExecuteReader();
                 // todo : obter lista de utilizadores
-                if (reader.Read()) {
-                    User user = LoadUser(reader);
+                while(reader.Read()) {
+                    users.Add(LoadUser(reader));
                 }
-                //...........
                 return users;
             } catch {
                 return null;
